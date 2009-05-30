@@ -28,6 +28,7 @@ class Joe < Thor
     gemspec
   
     if file = `gem build #{spec_file}`[/  File: (.*)/, 1]
+      FileUtils.mkdir_p("pkg")
       FileUtils.mv(file, "pkg")
     end
 
