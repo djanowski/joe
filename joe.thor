@@ -6,12 +6,17 @@ require 'erb'
 class Joe < Thor
   desc "gemspec", "Generate the gemspec file out of the ERb template"
   def gemspec
-    File.open(spec_file, 'w') do |f|
-      f.write(ERB.new(File.read("#{spec_file}.erb")).result(binding))
-    end
+    begin
+      File.open(spec_file, 'w') do |f|
+        f.write(ERB.new(File.read("#{spec_file}.erb")).result(binding))
+      end
 
-    puts "Successfully generated #{spec_file}"
-    true
+      puts "Successfully generated #{spec_file}"
+      true
+    rescue Errno::ENOENT
+      $stderr.puts "Could not find a gemspec.erb file. Find a sample one on http://dimaion.com/joe/sample.gemspec.erb"
+      false
+    end
   end
 
   def spec_file

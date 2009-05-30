@@ -15,7 +15,7 @@ Make sure you have Thor installed:
 
 And then simply:
 
-    $ thor install http://dimaion.com/files/joe.thor
+    $ thor install http://dimaion.com/joe/joe.thor
 
 That's all.
 
