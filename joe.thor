@@ -37,7 +37,7 @@ class Joe < Thor
 
   desc "archive", "Create a .tar.gz archive out of the current HEAD"
   def archive
-    if system "git archive --prefix=ohm-#{spec.version}/ --format=tar HEAD | gzip > #{archive_file}"
+    if system "git archive --prefix=#{spec.name}-#{spec.version}/ --format=tar HEAD | gzip > #{archive_file}"
       puts "Successfully archived to #{archive_file}"
       true
     end
@@ -77,7 +77,7 @@ protected
   def release_file(file)
     puts "Releasing #{file} to RubyForge..."
 
-    if system "rubyforge add_release ohm ohm #{spec.version} #{file}"
+    if system "rubyforge add_release #{spec.name} #{spec.name} #{spec.version} #{file}"
       puts "Successfully released #{file} to RubyForge."
       true
     end
