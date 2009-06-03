@@ -29,7 +29,7 @@ If you get an error about a missing `group_id`, try running `rubyforge config`. 
 Maintaining a gemspec file
 --------------------------
 
-The easiest way we've found to maintain a gemspec file is by creating a `foo.gemspec.erb` template ([see example](http://github.com/soveran/ohm/blob/6c3e7d89d40de8de9eb7a0f772b38bcb8996a8f9/ohm.gemspec.erb)). Then you can use a Thor task to produce the real gemspec file:
+The easiest way we've found to maintain a gemspec file is by creating a `foo.gemspec.erb` template ([see example](http://github.com/soveran/ohm/blob/e3ff3fb20c1337cb2c4de244e09ce9fa04ef397d/ohm.gemspec.erb)). Then you can use a Thor task to produce the real gemspec file:
 
     $ thor joe:gemspec
 
