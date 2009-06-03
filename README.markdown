@@ -1,9 +1,7 @@
 Joe
 ===
 
-Releasing gems to RubyForge has always been a pain. There's Hoe you say? Yes, but Hoe is a pain disguised as a virus.
-
-Meet Joe, the ultimate gem publisher.
+Release your gems to RubyForge, no pain involved.
 
 
 Usage
