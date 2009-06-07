@@ -31,7 +31,7 @@ class Joe < Thor
   desc "build", "Build the gem"
   def build
     gemspec
-  
+
     if file = `gem build #{spec_file}`[/  File: (.*)/, 1]
       FileUtils.mkdir_p("pkg")
       FileUtils.mv(file, "pkg")
@@ -50,7 +50,7 @@ class Joe < Thor
   end
 
   def spec
-    @spec ||= 
+    @spec ||=
       begin
         @spec = eval(File.read(spec_file))
       rescue Errno::ENOENT
@@ -60,7 +60,9 @@ class Joe < Thor
   end
 
   desc "release", "Publish gem and tarball to RubyForge"
+  method_options(:project => :optional, :package => :optional)
   def release
+    package_name = options[:package] || spec.name
     package and
     release_file(gem_file) and
     release_file(archive_file)
@@ -75,15 +77,18 @@ protected
   def gem_file
     artifact(".gem")
   end
-  
+
   def archive_file
     artifact(".tar.gz")
   end
 
   def release_file(file)
-    puts "Releasing #{file} to RubyForge..."
+    project_name = options[:project] || spec.name
+    package_name = options[:package] || spec.name
 
-    if system "rubyforge add_release #{spec.name} #{spec.name} #{spec.version} #{file}"
+    puts "Releasing #{file} to RubyForge... (#{project_name} #{package_name})"
+
+    if system "rubyforge add_release #{project_name} #{package_name} #{spec.version} #{file}"
       puts "Successfully released #{file} to RubyForge."
       true
     end
