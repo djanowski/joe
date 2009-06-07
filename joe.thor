@@ -62,7 +62,6 @@ class Joe < Thor
   desc "release", "Publish gem and tarball to RubyForge"
   method_options(:project => :optional, :package => :optional)
   def release
-    package_name = options[:package] || spec.name
     package and
     release_file(gem_file) and
     release_file(archive_file)
