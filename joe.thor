@@ -82,10 +82,10 @@ protected
   end
 
   def release_file(file)
-    project_name = options[:project] || spec.name
+    project_name = options[:project] || spec.rubyforge_project || spec.name
     package_name = options[:package] || spec.name
 
-    puts "Releasing #{file} to RubyForge... (#{project_name} #{package_name})"
+    puts "Releasing #{file} to RubyForge... (Project: #{project_name} Package: #{package_name})"
 
     if system "rubyforge add_release #{project_name} #{package_name} #{spec.version} #{file}"
       puts "Successfully released #{file} to RubyForge."
