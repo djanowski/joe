@@ -35,10 +35,13 @@ class Joe < Thor
     if file = `gem build #{spec_file}`[/  File: (.*)/, 1]
       FileUtils.mkdir_p("pkg")
       FileUtils.mv(file, "pkg")
-    end
 
-    puts "Successfully built #{gem_file}"
-    true
+      puts "Successfully built #{gem_file}"
+      true
+    else
+      puts "Unable to build #{gem_file}"
+      false
+    end
   end
 
   desc "archive", "Create a .tar.gz archive out of the current HEAD"
