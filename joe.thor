@@ -4,19 +4,11 @@ require 'fileutils'
 require 'erb'
 
 class Joe < Thor
+  include Thor::Actions
+
   desc "gemspec", "Generate the gemspec file out of the ERb template"
   def gemspec
-    begin
-      File.open(spec_file, 'w') do |f|
-        f.write(ERB.new(File.read("#{spec_file}.erb")).result(binding))
-      end
-
-      puts "Successfully generated #{spec_file}"
-      true
-    rescue Errno::ENOENT
-      $stderr.puts "Could not find a gemspec.erb file. Find a sample one on http://dimaion.com/joe/sample.gemspec.erb"
-      false
-    end
+    template "#{spec_file}.erb", spec_file
   end
 
   def spec_file
@@ -36,10 +28,10 @@ class Joe < Thor
       FileUtils.mkdir_p("pkg")
       FileUtils.mv(file, "pkg")
 
-      puts "Successfully built #{gem_file}"
+      say_status :created, gem_file
       true
     else
-      puts "Unable to build #{gem_file}"
+      say "Unable to build #{gem_file}"
       false
     end
   end
@@ -47,7 +39,7 @@ class Joe < Thor
   desc "archive", "Create a .tar.gz archive out of the current HEAD"
   def archive
     if system "git archive --prefix=#{spec.name}-#{spec.version}/ --format=tar HEAD | gzip > #{archive_file}"
-      puts "Successfully archived to #{archive_file}"
+      say_status :archived, archive_file
       true
     end
   end
@@ -57,17 +49,21 @@ class Joe < Thor
       begin
         @spec = eval(File.read(spec_file))
       rescue Errno::ENOENT
-        $stderr.puts "Gem specification file #{spec_file} not found."
+        say_status :not_found, spec_file
         exit 1
       end
   end
 
   desc "release", "Publish gem and tarball to RubyForge"
-  method_options(:project => :optional, :package => :optional)
+  method_options(:project => :string, :package => :string)
   def release
     package and
     release_file(gem_file) and
     release_file(archive_file)
+  end
+
+  def self.source_root
+    "."
   end
 
 protected
@@ -88,10 +84,10 @@ protected
     project_name = options[:project] || spec.rubyforge_project || spec.name
     package_name = options[:package] || spec.name
 
-    puts "Releasing #{file} to RubyForge... (Project: #{project_name} Package: #{package_name})"
+    say "Releasing #{file} to RubyForge... (Project: #{project_name} Package: #{package_name})"
 
     if system "rubyforge add_release #{project_name} #{package_name} #{spec.version} #{file}"
-      puts "Successfully released #{file} to RubyForge."
+      say_status :released, file
       true
     end
   end
