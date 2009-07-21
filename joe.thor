@@ -8,7 +8,7 @@ class Joe < Thor
 
   desc "gemspec", "Generate the gemspec file out of the ERb template"
   def gemspec
-    template "#{spec_file}.erb", spec_file
+    template "#{spec_file}.erb", spec_file, :force => true
   end
 
   def spec_file
