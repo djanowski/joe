@@ -11,13 +11,17 @@ class Joe < Thor
     template "#{spec_file}.erb", spec_file, :force => true
   end
 
-  def spec_file
-    Dir["*.gemspec"].first || Dir["*.gemspec.erb"].first.sub(/\.erb$/, '')
-  end
-
   desc "package", "Build the gem, package it and create a .tar.gz archive"
   def package
     build and archive
+  end
+
+  desc "install", "Build the gem, package it and install it"
+  method_options(:docs => :boolean)
+  def install
+    build
+    docs = " --no-rdoc --no-ri" unless options[:docs]
+    system "sudo gem install #{gem_file}#{docs}"
   end
 
   desc "build", "Build the gem"
@@ -44,16 +48,6 @@ class Joe < Thor
     end
   end
 
-  def spec
-    @spec ||=
-      begin
-        @spec = eval(File.read(spec_file))
-      rescue Errno::ENOENT
-        say_status :not_found, spec_file
-        exit 1
-      end
-  end
-
   desc "release", "Publish gem and tarball to RubyForge"
   method_options(:project => :string, :package => :string)
   def release
@@ -67,6 +61,20 @@ class Joe < Thor
   end
 
 protected
+
+  def spec_file
+    Dir["*.gemspec"].first || Dir["*.gemspec.erb"].first.sub(/\.erb$/, '')
+  end
+
+  def spec
+    @spec ||=
+      begin
+        @spec = eval(File.read(spec_file))
+      rescue Errno::ENOENT
+        say_status :not_found, spec_file
+        exit 1
+      end
+  end
 
   def artifact(extension)
     "pkg/#{spec.name}-#{spec.version}#{extension}"
