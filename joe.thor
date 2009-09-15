@@ -26,7 +26,7 @@ class Joe < Thor
 
   desc "build", "Build the gem"
   def build
-    gemspec
+    gemspec if File.exists?("#{spec_file}.erb")
 
     if file = `gem build #{spec_file}`[/  File: (.*)/, 1]
       FileUtils.mkdir_p("pkg")
