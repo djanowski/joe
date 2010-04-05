@@ -43,7 +43,9 @@ class Joe < Thor
 
   desc "release", "Publish gem to RubyForge"
   def release
-    package and release
+    build
+    say "Releasing #{gem_file}..."
+    gem "push", "pkg/#{gem_file}"
   end
 
   def self.source_root
@@ -77,11 +79,6 @@ protected
 
   def archive_file
     gem_file.sub(/\.gem$/, ".tar.gz")
-  end
-
-  def release_file(file)
-    say "Releasing #{gem_file}..."
-    gem "push", gem_file
   end
 
   def gem(*args)
