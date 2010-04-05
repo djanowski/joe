@@ -2,6 +2,7 @@
 
 require 'fileutils'
 require 'erb'
+require 'rubygems/gem_runner'
 
 class Joe < Thor
   include Thor::Actions
@@ -11,27 +12,19 @@ class Joe < Thor
     template "#{spec_file}.erb", spec_file, :force => true
   end
 
-  desc "package", "Build the gem, package it and create a .tar.gz archive"
-  def package
-    build and archive
-  end
-
   desc "install", "Build the gem, package it and install it"
-  method_options(:docs => :boolean)
   def install
-    build
-    docs = " --no-rdoc --no-ri" unless options[:docs]
-    system "sudo gem install #{gem_file}#{docs}"
+    build and
+      gem "install", gem_file
   end
 
   desc "build", "Build the gem"
   def build
     gemspec if File.exists?("#{spec_file}.erb")
 
-    if file = `gem build #{spec_file}`[/  File: (.*)/, 1]
-      FileUtils.mkdir_p("pkg")
-      FileUtils.mv(file, "pkg")
+    gem "build", spec_file
 
+    if pkg(gem_file)
       say_status :created, gem_file
       true
     else
@@ -42,18 +35,15 @@ class Joe < Thor
 
   desc "archive", "Create a .tar.gz archive out of the current HEAD"
   def archive
-    if system "git archive --prefix=#{spec.name}-#{spec.version}/ --format=tar HEAD | gzip > #{archive_file}"
-      say_status :archived, archive_file
+    if system("git archive --prefix=#{spec.name}-#{spec.version}/ --format=tar HEAD | gzip > #{archive_file}") && pkg(archive_file)
+      say_status :created, archive_file
       true
     end
   end
 
-  desc "release", "Publish gem and tarball to RubyForge"
-  method_options(:project => :string, :package => :string)
+  desc "release", "Publish gem to RubyForge"
   def release
-    package and
-    release_file(gem_file) and
-    release_file(archive_file)
+    package and release
   end
 
   def self.source_root
@@ -61,6 +51,11 @@ class Joe < Thor
   end
 
 protected
+
+  def pkg(file)
+    FileUtils.mkdir_p("pkg")
+    File.exist?(file) && FileUtils.mv(file, "pkg")
+  end
 
   def spec_file
     Dir["*.gemspec"].first || Dir["*.gemspec.erb"].first.sub(/\.erb$/, '')
@@ -76,27 +71,20 @@ protected
       end
   end
 
-  def artifact(extension)
-    "pkg/#{spec.name}-#{spec.version}#{extension}"
-  end
-
   def gem_file
-    artifact(".gem")
+    spec.file_name
   end
 
   def archive_file
-    artifact(".tar.gz")
+    gem_file.sub(/\.gem$/, ".tar.gz")
   end
 
   def release_file(file)
-    project_name = options[:project] || spec.rubyforge_project || spec.name
-    package_name = options[:package] || spec.name
+    say "Releasing #{gem_file}..."
+    gem "push", gem_file
+  end
 
-    say "Releasing #{file} to RubyForge... (Project: #{project_name} Package: #{package_name})"
-
-    if system "rubyforge add_release #{project_name} #{package_name} #{spec.version} #{file}"
-      say_status :released, file
-      true
-    end
+  def gem(*args)
+    Gem::GemRunner.new.run(args)
   end
 end
