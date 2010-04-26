@@ -1,0 +1,19 @@
+<% require "lib/joe" -%>
+Gem::Specification.new do |s|
+  s.name              = "joe"
+  s.version           = "<%= Joe::VERSION %>"
+  s.summary           = "Joe, the gem publisher"
+  s.description       = "Joe builds on top of Thor’s awesomeness to take you from a gem specification to world domination in a single step."
+  s.author            = "Damian Janowski"
+  s.email             = "djanowski@gmail.com"
+  s.homepage          = "http://github.com/djanowski/joe"
+  s.files = <%= Dir[
+    "LICENSE",
+    "README*",
+    "bin/*",
+    "lib/**/*.rb"
+  ].inspect %>
+
+  s.executables.push("joe")
+  s.add_dependency("thor", "~> 0.11")
+end

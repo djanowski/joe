@@ -1,0 +1,13 @@
+#! /usr/bin/env ruby -rubygems
+
+require File.join(File.dirname(__FILE__), "..", "lib", "joe")
+
+# A way to extend Joe is to write tasks in a Thorfile in the project's root directory.
+# Joe loads the Thorfile if there is one, and all the tasks that are declared in the
+# class Joe become available.
+if File.exists?("Thorfile")
+  load("Thorfile")
+end
+
+# Start the joe tasks.
+Joe.start

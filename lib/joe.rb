@@ -1,10 +1,11 @@
-# module: joe
-
+require "thor"
 require 'fileutils'
 require 'erb'
 require 'rubygems/gem_runner'
 
 class Joe < Thor
+  VERSION = "0.0.2"
+
   include Thor::Actions
 
   desc "gemspec", "Generate the gemspec file out of the ERb template"
@@ -41,7 +42,7 @@ class Joe < Thor
     end
   end
 
-  desc "release", "Publish gem to RubyForge"
+  desc "release", "Publish gem to RubyGems.org"
   def release
     build
     say "Releasing #{gem_file}..."

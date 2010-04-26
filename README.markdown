@@ -1,7 +1,7 @@
 Joe
 ===
 
-Release your gems to RubyForge, no pain involved.
+Release your gems, no pain involved.
 
 
 Usage
@@ -9,21 +9,15 @@ Usage
 
 Joe assumes you have a .gemspec file in the current directory and it will use it to build the gem. Once you have it, try this:
 
-    $ thor joe:package
+    $ thor joe:build
 
-Congratulations, you should have your gem built and an archive copy inside the `pkg` directory.
+Congratulations, you should have your gem built inside the `pkg` directory.
 
-Now go ahead and release your new gem to RubyForge:
+Now go ahead and release your new gem to RubyGems.org:
 
     $ thor joe:release
 
-Easy, right? Wait a few minutes until RubyForge updates its gems index and you will be able to run `sudo gem install foo`.
-
-
-Troubleshooting
----------------
-
-If you get an error about a missing `group_id`, try running `rubyforge config`. This hooks up your RubyForge account with the gem and configures where to release it.
+Easy, right? Wait a few minutes until RubyGems.org updates its gems index and you will be able to run `sudo gem install foo`.
 
 
 Maintaining a gemspec file
@@ -37,25 +31,13 @@ The easiest way we've found to maintain a gemspec file is by creating a `foo.gem
 Installation
 ------------
 
-You need the `rubyforge` gem in order to release files. If you don't have it already:
-
-    $ sudo gem install rubyforge
-    $ rubyforge setup
-    $ rubyforge config
-
-Make sure you have Thor installed:
-
-    $ sudo gem install thor
-
-And then simply:
-
-    $ thor install http://dimaion.com/joe/joe.thor
+    $ sudo gem install joe
 
 That's it. Try:
 
-    $ thor -T
+    $ joe
 
-And you will get a list of Thor tasks.
+And you will get a list of available tasks.
 
 
 Thanks
