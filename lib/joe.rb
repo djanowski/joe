@@ -16,7 +16,7 @@ class Joe < Thor
   desc "install", "Build the gem, package it and install it"
   def install
     build and
-      gem "install", gem_file
+      gem "install", "pkg/#{gem_file}"
   end
 
   desc "build", "Build the gem"
