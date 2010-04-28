@@ -9,13 +9,13 @@ Usage
 
 Joe assumes you have a .gemspec file in the current directory and it will use it to build the gem. Once you have it, try this:
 
-    $ thor joe:build
+    $ joe build
 
 Congratulations, you should have your gem built inside the `pkg` directory.
 
 Now go ahead and release your new gem to RubyGems.org:
 
-    $ thor joe:release
+    $ joe release
 
 Easy, right? Wait a few minutes until RubyGems.org updates its gems index and you will be able to run `sudo gem install foo`.
 
@@ -23,9 +23,9 @@ Easy, right? Wait a few minutes until RubyGems.org updates its gems index and yo
 Maintaining a gemspec file
 --------------------------
 
-The easiest way we've found to maintain a gemspec file is by creating a `foo.gemspec.erb` template ([see example](http://github.com/soveran/ohm/blob/e3ff3fb20c1337cb2c4de244e09ce9fa04ef397d/ohm.gemspec.erb)). Then you can use a Thor task to produce the real gemspec file:
+The easiest way we've found to maintain a gemspec file is by creating a `foo.gemspec.erb` template ([see example](http://github.com/soveran/ohm/blob/e3ff3fb20c1337cb2c4de244e09ce9fa04ef397d/ohm.gemspec.erb)). Then you can use Joe to produce the real gemspec file:
 
-    $ thor joe:gemspec
+    $ joe gemspec
 
 
 Installation
