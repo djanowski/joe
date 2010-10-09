@@ -4,7 +4,7 @@ require 'erb'
 require 'rubygems/gem_runner'
 
 class Joe < Thor
-  VERSION = "0.0.2"
+  VERSION = "0.0.3"
 
   include Thor::Actions
 
