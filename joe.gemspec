@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.files = ["LICENSE", "README.markdown", "bin/joe", "lib/joe.rb"]
 
   s.executables.push("joe")
-  s.add_dependency("thor", "~> 0.11")
+  s.add_dependency("clap")
 end
