@@ -40,7 +40,7 @@ class Joe
   def release
     build
     status :releasing, gem_file
-    # gem("push", "pkg/#{gem_file}")
+    gem("push", "pkg/#{gem_file}")
   end
 
 private
