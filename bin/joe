@@ -1,13 +1,31 @@
 #! /usr/bin/env ruby -rubygems
 
 require File.join(File.dirname(__FILE__), "..", "lib", "joe")
+require "clap"
 
-# A way to extend Joe is to write tasks in a Thorfile in the project's root directory.
-# Joe loads the Thorfile if there is one, and all the tasks that are declared in the
-# class Joe become available.
-if File.exists?("Thorfile")
-  load("Thorfile")
+if ARGV.empty?
+  puts DATA.read
+  exit
 end
 
-# Start the joe tasks.
-Joe.start
+joe = Joe.new
+
+Clap.run ARGV,
+  "gemspec" => joe.method(:gemspec),
+  "build"   => joe.method(:build),
+  "install" => joe.method(:install),
+  "archive" => joe.method(:archive),
+  "release" => joe.method(:release),
+  "help"    => lambda { puts DATA.read }
+
+
+__END__
+
+=== General Commands
+
+help                 # Show this usage guide
+gemspec              # Generate the gemspec file out of the ERB template
+build                # Build the gem
+install              # Build the gem, package it, and install it
+archive              # Create a .tar.gz archive out of the current HEAD"
+release              # Public gem to rubygems.org
