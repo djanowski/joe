@@ -21,7 +21,7 @@ class Joe
     gem("build", spec_file)
 
     if pkg(gem_file)
-      status :created, gem_file
+      status :created, "pkg/#{gem_file}"
     else
       fail "Unable to build #{gem_file}"
     end
@@ -33,7 +33,7 @@ class Joe
 
   def archive
     if git_archive && pkg(archive_file)
-      status :created, archive_file
+      status :created, "pkg/#{archive_file}"
     end
   end
 
