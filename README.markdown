@@ -17,13 +17,13 @@ Now go ahead and release your new gem to RubyGems.org:
 
     $ joe release
 
-Easy, right? Wait a few minutes until RubyGems.org updates its gems index and you will be able to run `sudo gem install foo`.
+Easy, right? Wait until RubyGems.org updates its gems index and you will be able to run `gem install foo`.
 
 
 Maintaining a gemspec file
 --------------------------
 
-The easiest way we've found to maintain a gemspec file is by creating a `foo.gemspec.erb` template ([see example](http://github.com/soveran/ohm/blob/e3ff3fb20c1337cb2c4de244e09ce9fa04ef397d/ohm.gemspec.erb)). Then you can use Joe to produce the real gemspec file:
+The easiest way we've found to maintain a gemspec file is by creating a `foo.gemspec.erb` template ([see example](https://github.com/soveran/ohm/blob/master/ohm.gemspec.erb)). Then you can use Joe to produce the real gemspec file:
 
     $ joe gemspec
 
@@ -31,7 +31,7 @@ The easiest way we've found to maintain a gemspec file is by creating a `foo.gem
 Installation
 ------------
 
-    $ sudo gem install joe
+    $ gem install joe
 
 That's it. Try:
 
