@@ -18,7 +18,7 @@ class Joe
   def build
     gemspec if File.exist?("%s.erb" % spec_file)
 
-    gem("build", "joe.gemspec")
+    gem("build", spec_file)
 
     if pkg(gem_file)
       status :created, gem_file
