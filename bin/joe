@@ -3,8 +3,50 @@
 require File.join(File.dirname(__FILE__), "..", "lib", "joe")
 require "clap"
 
+help = <<-EOS
+JOE(1)
+
+NAME
+       joe -- Release your gems, no pain involved.
+
+SYNOPSIS
+       joe COMMAND
+
+DESCRIPTION
+       Joe is a small script that helps you build and release Ruby gems. It only
+       needs a gemspec file or an ERB gemspec template. With joe you can build the
+       gem, install it, archive it and release it to rubygems.org.
+
+USAGE
+       Joe assumes you have a *.gemspec file in the current directory and it will
+       use it to build the gem. If you prefer to use an ERB template, make sure
+       you have the template named *.gemspec.erb.
+
+COMMANDS
+       help        Show this usage guide
+       gemspec     Generate the gemspec file out of the ERB template
+       build       Build the gem
+       install     Build the gem, package it, and install it
+       archive     Create a .tar.gz archive out of the current HEAD
+       release     Push gem to rubygems.org
+
+EXAMPLES
+       If your library is called foo, you need to have foo.gemspec or
+       foo.gemspec.erb available. If you do, the following command will build the
+       gem and release it to rubygems.org.
+
+           joe release
+
+       To install the gem locally without releasing it:
+
+           joe install
+
+SEE ALSO
+       gem(1)
+EOS
+
 if ARGV.empty?
-  puts DATA.read
+  puts help
   exit
 end
 
@@ -16,16 +58,4 @@ Clap.run ARGV,
   "install" => joe.method(:install),
   "archive" => joe.method(:archive),
   "release" => joe.method(:release),
-  "help"    => lambda { puts DATA.read }
-
-
-__END__
-
-=== General Commands
-
-help                 # Show this usage guide
-gemspec              # Generate the gemspec file out of the ERB template
-build                # Build the gem
-install              # Build the gem, package it, and install it
-archive              # Create a .tar.gz archive out of the current HEAD"
-release              # Public gem to rubygems.org
+  "help"    => lambda { puts help }
