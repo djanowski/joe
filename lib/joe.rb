@@ -3,7 +3,7 @@ require "erb"
 require "rubygems/gem_runner"
 
 class Joe
-  VERSION = "0.1.0"
+  VERSION = "0.1.1"
 
   def gemspec
     File.open(spec_file, "w") do |f|
