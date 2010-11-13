@@ -1,7 +1,4 @@
-#! /usr/bin/env ruby -rubygems
-
-require File.join(File.dirname(__FILE__), "..", "lib", "joe")
-require "clap"
+#! /usr/bin/env ruby
 
 help = <<-EOS
 JOE(1)
@@ -49,6 +46,9 @@ if ARGV.empty?
   puts help
   exit
 end
+
+require "joe"
+require "clap"
 
 joe = Joe.new
 
