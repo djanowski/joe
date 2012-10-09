@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name              = "joe"
-  s.version           = "0.1.1"
+  s.version           = "0.1.3"
   s.summary           = "Release your gems, no pain involved."
   s.description       = "Joe takes you from a gem specification to world domination in a single step."
   s.authors           = ["Damian Janowski", "Michel Martens"]

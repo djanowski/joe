@@ -3,8 +3,6 @@ require "erb"
 require "rubygems/gem_runner"
 
 class Joe
-  VERSION = "0.1.1"
-
   def gemspec
     File.open(spec_file, "w") do |f|
       f.write ERB.new(File.read("%s.erb" % spec_file), nil, "-").result
