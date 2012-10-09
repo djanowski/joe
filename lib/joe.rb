@@ -54,11 +54,11 @@ private
   end
 
   def fail(str)
-    puts "\e[1;31m#{str}\e[1;37m"
+    puts "\e[1;31m#{str}\e[0m"
   end
 
   def status(type, message)
-    puts "\e[1;32m %10s \e[1;37m %s" % [type, message]
+    puts "\e[1;32m %10s \e[1;37m %s\e[0m" % [type, message]
 
     return type, message
   end
